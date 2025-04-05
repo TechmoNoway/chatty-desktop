@@ -3,6 +3,8 @@ import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 
+app.setPath("userData", join(app.getPath("appData"), "chatty-desktop-cache"));
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -15,11 +17,30 @@ function createWindow(): void {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,
     },
+    // frame: false,
+    titleBarStyle: "hidden",
+    titleBarOverlay: {
+      color: "#efefef",
+      symbolColor: "#7c7c7c",
+    },
   });
 
   mainWindow.on("ready-to-show", () => {
     mainWindow.show();
   });
+
+  // mainWindow.webContents.session.webRequest.onHeadersReceived(
+  //   (details, callback) => {
+  //     callback({
+  //       responseHeaders: {
+  //         ...details.responseHeaders,
+  //         "Content-Security-Policy": [
+  //           "default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ibb.co",
+  //         ],
+  //       },
+  //     });
+  //   },
+  // );
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);

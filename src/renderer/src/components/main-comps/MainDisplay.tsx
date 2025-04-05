@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
-const MainDisplay = React.memo((props: any) => {
+const MainDisplay = React.memo(() => {
   const navigate = useNavigate();
   const handleRouting = useCallback(() => {
     navigate("/chat");
